@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import ThemeChanger from './ThemeChanger';
 
 const Navbar = () => (
   <nav className="navbar  shadow flex flex-col items-center px-4 py-2">
-    {/* Top bar: Logo + login/register + donate */}
+   <ThemeChanger />
     <div className="w-full flex items-center justify-between mb-2">
       <Link to="/" className="flex items-center gap-2">
         <img src="/logo biblio.jpg" alt="Logo" className="w-20 h-20" />
