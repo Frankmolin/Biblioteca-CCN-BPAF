@@ -19,7 +19,7 @@ Antes de empezar, necesitas tener instalado en tu computadora:
 
    Si tienes Git, puedes usar:
    ```bash
-   git clone https://github.com/tu-usuario/bibloteca.git
+   git clone https://github.com/Frankmolin/Biblioteca-CCN-BPAF.git
    cd bibloteca
    ```
    O descarga el ZIP y descomprímelo.
