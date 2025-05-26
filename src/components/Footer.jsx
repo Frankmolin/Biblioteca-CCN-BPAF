@@ -2,10 +2,15 @@ import React from 'react'
 
 export default function Footer() {
     return (
-        <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
-            <aside>
-                Centro Cultural Necochea — Biblitoteca Popular "Andrés Ferreyra"
-                
+        <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10" style={{
+            backgroundColor: "#4148C4"
+        }}>
+            <span>
+                <img src="logoSiglasIMG.jpg" alt="Logo" className="w-50 h-18" />
+                <p>Centro Cultural Necochea — 
+                <br></br>
+                Biblitoteca Popular "Andrés Ferreyra"</p>
+                <br></br>
                 <nav>
                     <div className="grid grid-flow-col gap-4">
                         <a href="http://linktr.ee/ccnpaf" target="_blank">
@@ -43,7 +48,19 @@ export default function Footer() {
                         </a>
                     </div>
                 </nav>
-            </aside>
+            </span>
+            <ul>
+                <p>Dirección: 54 N°3062</p>
+                <p>Horario de atención: lunes a viernes, 
+                <br></br>
+                de 14 a 20hs.</p>
+            </ul>
+            <ul>
+                <p>Contáctanos:</p>
+                <p>2262 42-4117
+                <br></br>
+                centroculturalnecochea@gmail.com</p>
+            </ul>
         </footer>
     )
 }
