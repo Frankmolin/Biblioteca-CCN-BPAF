@@ -3,17 +3,17 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const imagenes = [
-  "public/images/foto1.jpg",
-  "public/images/foto2.jpg",
-  "public/images/foto3.jpg",
-  "public/images/foto4.jpg",
-  "public/images/foto5.jpg",
-  "public/images/foto6.jpg",
-  "public/images/foto7.jpg",
-  "public/images/foto8.jpg",
-  "public/images/foto9.jpg",
-  "public/images/foto10.jpg",
-  "public/images/foto11.jpg",
+  "./images/foto1.jpg",
+  "./images/foto2.jpg",
+  "./images/foto3.jpg",
+  "./images/foto4.jpg",
+  "./images/foto5.jpg",
+  "./images/foto6.jpg",
+  "./images/foto7.jpg",
+  "./images/foto8.jpg",
+  "./images/foto9.jpg",
+  "./images/foto10.jpg",
+  "./images/foto11.jpg",
 ];
 
 export default function Galeria() {
@@ -43,7 +43,7 @@ export default function Galeria() {
 
       <button
         onClick={() => navigate(-1)}
-        className="mt-8 text-[#6b4c3b] underline hover:text-[#563b2d] block mx-auto"
+        className="mt-8 link link-primary block mx-auto"
       >
         ← Volver
       </button>
