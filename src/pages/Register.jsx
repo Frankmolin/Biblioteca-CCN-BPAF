@@ -65,9 +65,9 @@ const Register = () => {
             </div>
           </form>
           <div className="mt-4 text-center ">
-            <a href="/login" className="link link-primary">
+            <Link to="/login" className="link link-primary">
               ¿Ya tienes cuenta? Inicia sesión
-            </a>
+            </Link>
           </div>
         </div>
       </div>

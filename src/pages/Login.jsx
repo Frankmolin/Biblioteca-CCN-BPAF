@@ -49,9 +49,9 @@ const Login = () => {
             </div>
           </form>
           <div className="mt-4 text-center">
-            <a href="/register" className="link link-primary">
+            <Link to="/register" className="link link-primary">
               ¿No tienes cuenta? Regístrate
-            </a>
+            </Link>
           </div>
         </div>
       </div>
