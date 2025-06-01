@@ -2,11 +2,9 @@ import React from 'react'
 
 export default function Footer() {
     return (
-        <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content p-10" style={{
-            backgroundColor: "#4148C4"
-        }}>
+        <footer className="footer sm:footer-horizontal bg-indigo-500 text-white text-neutral-content p-10">
             <span>
-                <img src="logoSiglasIMG.jpg" alt="Logo" className="w-50 h-18" />
+                <img src="Logo.png" alt="Logo" className="w-50 h-35" />
                 <p>Centro Cultural Necochea — 
                 <br></br>
                 Biblitoteca Popular "Andrés Ferreyra"</p>
