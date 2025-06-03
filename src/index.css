@@ -1,4 +1,59 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
-  themes: all;
+  themes: light --default, dark --prefersdark;
+}
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+
+  /* Base */
+  --color-base-100: #ffffff;
+  --color-base-200: #f3f3f3;
+  --color-base-300: #e0e0e0;
+  --color-base-content: #1a1a1a;
+
+  /* Colores principales */
+  --color-primary: #304E8C;         /* Deep blue */
+  --color-primary-content: #ffffff;
+
+  --color-secondary: #8B519D;       /* Purple */
+  --color-secondary-content: #ffffff;
+
+  --color-accent: #E96944;          /* Orange‑red */
+  --color-accent-content: #ffffff;
+
+  /* Neutros y feedback */
+  --color-neutral: #F3C529;         /* Mustard yellow */
+  --color-neutral-content: #1a1a1a;
+
+  --color-info: #304E8C;            /* Deep blue (puede usarse como info) */
+  --color-info-content: #ffffff;
+
+  --color-success: #689B3E;         /* Olive‑green */
+  --color-success-content: #ffffff;
+
+  --color-warning: #F3C529;         /* Mustard yellow */
+  --color-warning-content: #1a1a1a;
+
+  --color-error: #E96944;           /* Orange‑red */
+  --color-error-content: #ffffff;
+
+  /* Bordes y radios */
+  --radius-box: 1rem;
+  --radius-field: 0.5rem;
+  --border: 1px;
+}
+
+
+
+@layer base {
+  .font-outline-1 {
+    -webkit-text-stroke: 0.5px black;
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px black;
+  }
 }

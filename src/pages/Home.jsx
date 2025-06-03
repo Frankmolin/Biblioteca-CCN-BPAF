@@ -1,5 +1,6 @@
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Link } from 'react-router-dom';
 
 
 
@@ -7,93 +8,126 @@ function Home() {
 
   return (
     <div>
-    <div className="flex flex-col items-center justify-center">
-      <Carousel
-      autoPlay
-      infiniteLoop
-      showThumbs={false}
-      showStatus={false}
-      dynamicHeight={true}
-      width="98%"
-      className="w-fit flex flex-col items-center justify-center">
-        <div>
-          <img src="CCNBPAFHome1.jpg"/>
+      <div className="w-full ">
+        <div className="w-[90vw] h-[60vh] mx-auto">
+          <Carousel
+            autoPlay
+            infiniteLoop
+            showThumbs={false}
+            showStatus={false}
+            dynamicHeight={false}
+            className="w-full h-full"
+          >
+            {[
+              'CCNBPAFHome1.jpg',
+              'CCNBPAFHome2.jpg',
+              'CCNBPAFHome3.jpg',
+              'CCNBPAFHome4.jpg',
+              'CCNBPAFHome5.jpg',
+              'CCNBPAFHome6.jpg',
+              'CCNBPAFHome7.jpg',
+              'CCNBPAFHome8.jpg',
+              'CCNBPAFHome9.jpg',
+              'CCNBPAFHome10.jpg',
+            ].map((src, index) => (
+              <div key={index} className="w-full h-[60vh]">
+                <img
+                  src={src}
+                  alt={`Slide ${index + 1}`}
+                  className="w-full h-full object-cover rounded-lg shadow-lg"
+                />
+              </div>
+            ))}
+          </Carousel>
         </div>
-        <div>
-          <img src="CCNBPAFHome2.jpg"/>
+        <div className="py-6 px-4 text-center ">
+          <h1 className="text-2xl sm:text-4xl font-bold ">
+            Centro Cultural Necochea — Biblioteca Popular "Andrés Ferreyra"
+          </h1>
+          <p className="mt-2 text-base sm:text-lg italic text-gray-600">
+            «Promoviendo la cultura en la comunidad desde 1907».
+          </p>
         </div>
-        <div>
-          <img src="CCNBPAFHome3.jpg"/>
-        </div>
-        <div>
-          <img src="CCNBPAFHome4.jpg"/>
-        </div>
-        <div>
-          <img src="CCNBPAFHome5.jpg"/>
-        </div>
-        <div>
-          <img src="CCNBPAFHome6.jpg"/>
-        </div>
-        <div>
-          <img src="CCNBPAFHome7.jpg"/>
-        </div>
-        <div>
-          <img src="CCNBPAFHome8.jpg"/>
-        </div>
-        <div>
-          <img src="CCNBPAFHome9.jpg"/>
-        </div>
-        <div>
-          <img src="CCNBPAFHome10.jpg"/>
-        </div>
-      </Carousel>
-      <br></br>
-      <h1 className="text-4xl font-bold">Centro Cultural Necochea — Biblitoteca Popular "Andrés Ferreyra"</h1>
-      <p className="mt-4 text-lg italic">«Promoviendo la cultura en la comunidad desde 1907».</p>
-      <br></br>
+      </div>
+
+      <div className="bg-base-200 text-base-content my-12 px-4 sm:px-6 py-10 rounded-lg">
+        <section className="max-w-7xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-8">
+            ¡Sumate a nuestra comunidad cultural!
+          </h1>
+          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+
+            {/* 1. Historia */}
+            <article className="bg-base-100 border-l-4 border-primary p-6 rounded-lg shadow hover:shadow-lg transition">
+              <h2 className="text-xl font-semibold mb-3 text-primary">
+                Nuestra Historia
+              </h2>
+              <p className="text-sm leading-relaxed">
+                Desde 1907 abrimos nuestras puertas como Biblioteca Popular “Andrés Ferreyra”, promoviendo el acceso libre al conocimiento y el desarrollo de proyectos culturales en Necochea.
+              </p>
+              <img src="./CCNBPAFDibujo.jpg" alt="" srcset="" />
+            </article>
+
+            {/* 2. Socios */}
+            <article className="bg-base-100 border-l-4 border-success p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between">
+              <h2 className="text-xl font-semibold mb-3 text-success">
+                Hazte Socio
+              </h2>
+              <p className="text-sm mb-4">
+                Con tu aporte mensual de <span className="font-bold text-success">$2.500</span> disfrutás de:
+              </p>
+              <ul className="list-disc list-inside text-sm mb-6 space-y-1">
+                <li>Préstamo de libros hasta 15 días.</li>
+                <li>Proponer títulos para nuestro catálogo.</li>
+                <li>50% de descuento en eventos y talleres.</li>
+              </ul>
+              <a href="#inscripcion" className="mt-auto">
+                <button className="btn btn-success btn-block">
+                  Quiero ser socio
+                </button>
+              </a>
+            </article>
+
+            {/* 3. Actividades */}
+            <article className="bg-base-100 border-l-4 border-secondary p-6 rounded-lg shadow hover:shadow-lg transition">
+              <h2 className="text-xl font-semibold mb-3 text-secondary">
+                Actividades & Talleres
+              </h2>
+              <ul className="text-sm space-y-2">
+                <li>Club de lectura semanal</li>
+                <li>Juegotecas comunitarias</li>
+                <li>Talleres de escritura creativa</li>
+                <li>Cine fórum y charlas culturales</li>
+              </ul>
+              <Link to="./eventos" className="inline-block mt-4 text-secondary hover:underline text-sm">
+                Ver calendario completo →
+              </Link>
+            </article>
+
+            {/* 4. Ubicación */}
+            <article className="bg-base-100 border-l-4 border-info p-0 rounded-lg shadow overflow-hidden flex flex-col h-full">
+              <div className="flex-1 w-full h-64 sm:h-72 md:h-80 lg:h-96">
+                <iframe
+                  className="w-full h-full border-0"
+                  src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d3119.981701424555!2d-58.7401628!3d-38.5572354!3m2!1i1024!2i768!4f13.1!2m1!1sbiblioteca%20popular%20andres%20ferreyra%20necochea!5e0!3m2!1ses-419!2sar!4v1748294310020!5m2!1ses-419!2sar"
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Ubicación Biblioteca"
+                ></iframe>
+              </div>
+              <div className="p-4 text-center">
+                <p className="text-sm text-info">
+                  Avenida 58 entre 65 y 67, Necochea — Buenos Aires
+                </p>
+              </div>
+            </article>
+
+          </div>
+        </section>
+      </div>
+
     </div>
-    <div className="text-black m-10 flex flex-col items-center justify-center text-justify bg-sky-100">
-      <section>
-      <div className="mt-10 ml-60 grid md:grid-cols-4 gap-20">
-      <article className="col-span-3 border-4 border-indigo-500 p-5 rounded shadow tracking-wide leading-8 bg-white">
-        <h2 className="text-xl indent-8 font-bold leading-7">Porque es la solidaridad lo que senta las bases para una sociedad más justa</h2>
-        <br></br>
-        <p className="italic indent-8 mt-2">A más de 100 años de su inauguración como biblioteca popular, nuestra institución se consolida como la ONG más antigua del distrito de Necochea. No obstante, nuestra aspiración continúa siendo la misma que hacía tantos años atrás: velar por el cumplimiento del derecho al acceso a la información en la comunidad, así como difundir la obra de talentos nacionales de diversa índole.</p>
-        <br/>
-        <div className="container flex flex-col items-center">
-        <img className="w-1/2" src="CCNBPAFDibujo.jpg"/>
-        </div>
-      </article>
-      </div>
-      <div className="ml-5 grid md:grid-cols-4 gap-20">
-      <article className="col-span-2 mr-5 mt-20 mb-10 border-4 border-indigo-500 p-5 rounded shadow tracking-wide leading-7 bg-white justify-center text-justify">
-        <h2 className="text-xl text-black font-bold leading-10">¿Te interesa colaborar?</h2>
-        <p className="mt-2">Acercándote al edificio, podés solicitar hacerte socio. La cuota tiene un valor de $2500, y te permite: </p>
-       <br></br>
-       <div className="indent-7">
-        <p> • Retirar libros de la biblioteca por hasta 15 días.</p>
-        <p> • Relizar peticiones de material para que el mismo sea añadido al catálogo.</p>
-        <p> • Contar con un descuento del 50% en entradas para cualquier evento.</p>
-        <br/> 
-      </div>
-      </article>
-      <article className="cotainer flex flex-col items-center col-span-2 mr-5 mt-10 border-4 border-indigo-500 p-5 rounded shadow tracking-wide leading-10 bg-white">
-        <h2 className="text-xl text-center font-bold leading-10">Sitios de interes:</h2>
-        <br/>
-        <a href="https://www.conabip.gob.ar/" target="_blank">
-          <button className="bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 border border-indigo-900 rounded">CONABIP</button>
-        </a>
-        <a href="https://necochea.gov.ar/" target="_blank">
-        <br/>
-        <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 border border-purple-700 rounded">Municipalidad de Necochea</button>
-        </a>
-      </article>
-      </div>
-      </section>
-            <iframe className="cotainer flex flex-col items-center mb-10 mt-10 aspect-square w-2/3" src="https://www.google.com/maps/embed?pb=!1m12!1m8!1m3!1d3119.981701424555!2d-58.7401628!3d-38.5572354!3m2!1i1024!2i768!4f13.1!2m1!1sbiblioteca%20popular%20andres%20ferreyra%20necochea!5e0!3m2!1ses-419!2sar!4v1748294310020!5m2!1ses-419!2sar" allowFullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-      <br></br>
-    </div> 
   );
 }
 

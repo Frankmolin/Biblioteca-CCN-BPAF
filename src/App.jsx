@@ -8,7 +8,7 @@ import MainLayout from './layouts/MainLayout';
 import Acerca from './pages/Acerca';
 import Catalogo from './pages/Catalogo';
 import Eventos from './pages/Eventos';
-import Foro from './pages/Foro';
+
 import Register from './pages/Register';
 import Login from './pages/Login';
 
@@ -21,7 +21,6 @@ function AnimatedRoutes() {
         <Route path="/acerca" element={<Acerca />} />
         <Route path="/catalogo" element={<Catalogo />} />
         <Route path="/eventos" element={<Eventos />} />
-        <Route path="/foro" element={<Foro />} />
 
         <Route path="/autoridades" element={<Autoridades />} />
         <Route path="/galeria" element={<Galeria />} />
