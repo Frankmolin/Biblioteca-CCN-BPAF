@@ -8,8 +8,8 @@ function Home() {
 
   return (
     <div>
-      <div className="w-full ">
-        <div className="w-[90vw] h-[60vh] mx-auto">
+      <div className="w-full">
+        <div className="w-[95vw] h-[75vh] mx-auto">
           <Carousel
             autoPlay
             infiniteLoop
@@ -30,7 +30,7 @@ function Home() {
               'CCNBPAFHome9.jpg',
               'CCNBPAFHome10.jpg',
             ].map((src, index) => (
-              <div key={index} className="w-full h-[60vh]">
+              <div key={index} className="w-full h-[75vh]">
                 <img
                   src={src}
                   alt={`Slide ${index + 1}`}
@@ -53,33 +53,33 @@ function Home() {
       <div className="bg-base-200 text-base-content my-12 px-4 sm:px-6 py-10 rounded-lg">
         <section className="max-w-7xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-8">
-            ¡Sumate a nuestra comunidad cultural!
+            ¡Te damos la bienvenida a nuestra comunidad cultural!
           </h1>
           <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
 
             {/* 1. Historia */}
             <article className="bg-base-100 border-l-4 border-primary p-6 rounded-lg shadow hover:shadow-lg transition">
               <h2 className="text-xl font-semibold mb-3 text-primary">
-                Nuestra Historia
+                Nuestra misión
               </h2>
-              <p className="text-sm leading-relaxed">
-                Desde 1907 abrimos nuestras puertas como Biblioteca Popular “Andrés Ferreyra”, promoviendo el acceso libre al conocimiento y el desarrollo de proyectos culturales en Necochea.
+              <p className="text-sm leading-relaxed tracking-tight text-justify">
+                A más de 100 años de su inauguración, la aspiración de nuestra institución continúa siendo la misma que hacía tantos años atrás: velar por el cumplimiento del derecho al acceso a la información en la comunidad, así como difundir la obra de talentos nacionales de diversa índole.
               </p>
-              <img src="./CCNBPAFDibujo.jpg" alt="" srcset="" />
+              <img className="mt-5" src="./CCNBPAFDibujo.jpg" alt="" srcset="" />
             </article>
 
             {/* 2. Socios */}
             <article className="bg-base-100 border-l-4 border-success p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between">
               <h2 className="text-xl font-semibold mb-3 text-success">
-                Hazte Socio
+                Hacetete socio
               </h2>
-              <p className="text-sm mb-4">
-                Con tu aporte mensual de <span className="font-bold text-success">$2.500</span> disfrutás de:
+              <p className="text-sm mb-4 tracking-tight text-justify">
+                Con tu aporte mensual de <span className="font-bold text-success">$2.500</span>, podés:
               </p>
               <ul className="list-disc list-inside text-sm mb-6 space-y-1">
-                <li>Préstamo de libros hasta 15 días.</li>
+                <li>Retirar libros por hasta 15 días.</li>
                 <li>Proponer títulos para nuestro catálogo.</li>
-                <li>50% de descuento en eventos y talleres.</li>
+                <li>Asistir a eventos y talleres con un 50% de descuento.</li>
               </ul>
               <a href="#inscripcion" className="mt-auto">
                 <button className="btn btn-success btn-block">
@@ -91,15 +91,15 @@ function Home() {
             {/* 3. Actividades */}
             <article className="bg-base-100 border-l-4 border-secondary p-6 rounded-lg shadow hover:shadow-lg transition">
               <h2 className="text-xl font-semibold mb-3 text-secondary">
-                Actividades & Talleres
+                Actividades y talleres
               </h2>
-              <ul className="text-sm space-y-2">
+              <ul className="text-sm space-y-2 tracking-tight text-justify">
                 <li>Club de lectura semanal</li>
                 <li>Juegotecas comunitarias</li>
                 <li>Talleres de escritura creativa</li>
                 <li>Cine fórum y charlas culturales</li>
               </ul>
-              <Link to="./eventos" className="inline-block mt-4 text-secondary hover:underline text-sm">
+              <Link to="./eventos" className="inline-block mt-4 text-secondary hover:underline text-sm tracking-tight text-justify">
                 Ver calendario completo →
               </Link>
             </article>
@@ -117,7 +117,7 @@ function Home() {
                 ></iframe>
               </div>
               <div className="p-4 text-center">
-                <p className="text-sm text-info">
+                <p className="text-sm text-info tracking-tight text-justify">
                   Avenida 58 entre 65 y 67, Necochea — Buenos Aires
                 </p>
               </div>
