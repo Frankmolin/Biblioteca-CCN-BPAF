@@ -1,36 +1,53 @@
-import React from "react";
+import { useState} from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let formData = Object.fromEntries(new FormData(e.target).entries());
+  
+    const [email, setEMail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    if (!formData.email || !formData.password) {
-      toast.error("Todos los campos son obligatorios");
-      return;
-    }
 
-    // Lógica de inicio de sesión
-    toast.success("Inicio de sesión exitoso");
-  };
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        setError('');
+        
+        try {
+          
+          fetch('http://localhost:3001/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ email, password }),
+          })
+          .then((res) => res.json())
+
+          navigate('/');
+
+        } catch(error) {
+            setError(error.response?.data?.message || 'Lo sentimos; ha ocurrido un error en la conexión.');
+            console.error('Error: ', error)
+        }  
+    };
 
   return (
     <div className="flex justify-center items-center h-screen ">
       <div className="card w-96 bg-base-300 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title">Iniciar Sesión</h2>
+          <h2 className="card-title">Iniciar sesión</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Correo Electrónico</span>
+                <span className="label-text">Correo electrónico</span>
               </label>
               <input
                 type="email"
                 name="email"
+                value={email}
+                onChange={(e) => setEMail(e.target.value)}
+                required
                 placeholder="Ingresa tu correo"
                 className="input input-bordered"
               />
@@ -42,6 +59,9 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
                 placeholder="Ingresa tu contraseña"
                 className="input input-bordered"
               />
@@ -52,7 +72,7 @@ const Login = () => {
           </form>
           <div className="mt-4 text-center">
             <Link to="/register" className="link link-primary">
-              ¿No tienes cuenta? Regístrate
+              ¿Todavía no tenés una cuenta? Regístrate
             </Link>
           </div>
         </div>
