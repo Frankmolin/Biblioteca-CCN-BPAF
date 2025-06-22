@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
             <span>
-                <img src="Logo.png" alt="Logo" className="w-40 h-28" />
+                <img src="/Logo.png" alt="Logo" className="w-40 h-28" />
                 <p className="font-bold text-primary">
                     Centro Cultural Necochea —<br />
                     Biblioteca Popular "Andrés Ferreyra"

@@ -1,122 +1,102 @@
-import { useState } from 'react';
-import { ToastContainer, toast } from "react-toastify";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Link } from "react-router-dom";
+import BackApiUrl from "../utils/BackApiUrl";
 
 const Register = () => {
+  const navigate = useNavigate();
 
-  const [user, setUser] = useState([]);
-  const [form, setForm] = useState({ email: '', username: '', password: '', confirmPassword: ''});
-  
-  const sendUser = (e) => {
-    
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const form = e.target;
+    const nombre = form.nombre.value;
+    const email = form.email.value;
+    const password = form.password.value;
 
-    if(!form.username || !form.password || !form.email ) {
+    try {
+      const res = await fetch(`${BackApiUrl}/auth/registro`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, email, password }),
+      });
 
-      toast.error("Todos los campos son obligatorios");
-      return } else {
-
-        if(form.password !== form.confirmPassword) {
-
-          toast.error("Las contraseñas no coinciden");
-          return } else {
-
-            const newUser = {
-              email: form.email,
-              username: form.username,
-              password: form.password,
-            };
-          
-            fetch('http://localhost:3001/register', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(newUser),
-            })
-            .then((res) => res.json())
-            .then((data) => {
-              setUser({...user, data})
-              setForm({ email: '', username: '', password: '', confirmPassword: ''})
-            })
-            .catch((error) => console.error("Error al registrar usuario: ", error));
-          }
-        }
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Error al registrarse");
       }
-      
-      const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value});
-      }
-    
-    return (
-    
-    <div className="flex justify-center items-center h-screen ">
-      <div className="card w-96 bg-base-300 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title">Registrarse</h2>
-          <form onSubmit={sendUser}>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Correo electrónico</span>
-                </label>
-                <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="Ingresa tu correo"
-                className="input input-bordered"
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Nombre de usuario</span>
-                </label>
-                <input
-                type="username"
-                name="username"
-                value={form.username}
-                onChange={handleChange}
-                placeholder="Ingresa tu nombre de usuario"
-                className="input input-bordered"
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Contraseña</span>
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={form.password}
-                onChange={handleChange}
-                placeholder="Ingresa tu contraseña"
-                className="input input-bordered"
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Confirmar contraseña</span>
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirma tu contraseña"
-                className="input input-bordered"
-              />
-            </div>
-            <div className="form-control mt-4">
-              <button className="btn w-full btn-primary">Registrarse</button>
-            </div>
-          </form>
-          <div className="mt-4 text-center ">
-            <Link to="/login" className="link link-primary">
-              ¿Ya tenés una cuenta? Inicia sesión
-            </Link>
-          </div>
+
+      const data = await res.json();
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+      toast.success(data.message || "¡Login exitoso!");
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } catch (err) {
+      toast.error(err.message || "Error al registrarse");
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center bg-base-200">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-base-100 my-4 p-8 rounded-lg shadow-md w-full max-w-sm"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-primary text-center">
+          Registrarse
+        </h2>
+        <div className="mb-4">
+          <label htmlFor="nombre" className="block text-base-content mb-1">
+            Nombre
+          </label>
+          <input
+            type="text"
+            name="nombre"
+            className="input input-bordered w-full"
+            required
+            autoComplete="name"
+          />
         </div>
-      </div>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-base-content mb-1">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            className="input input-bordered w-full"
+            required
+            autoComplete="username"
+          />
+        </div>
+        <div className="mb-6">
+          <label htmlFor="password" className="block text-base-content mb-1">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            name="password"
+            className="input input-bordered w-full"
+            required
+            autoComplete="new-password"
+          />
+        </div>
+        <button
+          type="submit"
+          className="btn bg-primary text-primary-content w-full"
+        >
+          Registrarse
+        </button>
+        <div className="mt-4 text-center">
+          <span className="text-base-content">¿Ya tienes cuenta? </span>
+          <Link to="/login" className="link link-primary">
+            Iniciar sesión
+          </Link>
+        </div>
+      </form>
       <ToastContainer />
     </div>
   );

@@ -1,82 +1,95 @@
-import { useState} from "react";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate, Link } from "react-router-dom";
+import BackApiUrl from "../utils/BackApiUrl";
 
 const Login = () => {
-  
-    const [email, setEMail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const navigate = useNavigate();
+  const [email, setEMail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-        setError('');
-        
-        try {
-          
-          fetch('http://localhost:3001/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ email, password }),
-          })
-          .then((res) => res.json())
+    try {
+      const res = await fetch(`${BackApiUrl}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-          navigate('/');
+      if (!res.ok) {
+        throw new Error("Credenciales incorrectas");
+      }
 
-        } catch(error) {
-            setError(error.response?.data?.message || 'Lo sentimos; ha ocurrido un error en la conexión.');
-            console.error('Error: ', error)
-        }  
-    };
+      const data = await res.json();
+
+      
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+      toast.success(data.message || "¡Login exitoso!");
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } catch (err) {
+      toast.error(err.message || "Error al iniciar sesión");
+    }
+  };
 
   return (
-    <div className="flex justify-center items-center h-screen ">
-      <div className="card w-96 bg-base-300 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title">Iniciar sesión</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Correo electrónico</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEMail(e.target.value)}
-                required
-                placeholder="Ingresa tu correo"
-                className="input input-bordered"
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Contraseña</span>
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="Ingresa tu contraseña"
-                className="input input-bordered"
-              />
-            </div>
-            <div className="form-control mt-4">
-              <button className="btn w-full btn-primary">Iniciar Sesión</button>
-            </div>
-          </form>
-          <div className="mt-4 text-center">
-            <Link to="/register" className="link link-primary">
-              ¿Todavía no tenés una cuenta? Regístrate
-            </Link>
-          </div>
+    <div className="flex flex-col items-center justify-center  bg-base-200">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-base-100 my-4 p-8 rounded-lg shadow-md w-full max-w-sm"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-primary text-center">
+          Iniciar sesión
+        </h2>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-base-content mb-1">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEMail(e.target.value)}
+            className="input input-bordered w-full"
+            required
+            autoComplete="username"
+          />
         </div>
-      </div>
+        <div className="mb-6">
+          <label htmlFor="password" className="block text-base-content mb-1">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input input-bordered w-full"
+            required
+            autoComplete="current-password"
+          />
+        </div>
+        <button
+          type="submit"
+          className="btn bg-primary text-primary-content w-full"
+        >
+          Ingresar
+        </button>
+        <div className="mt-4 text-center">
+          <span className="text-base-content">¿No tienes cuenta? </span>
+          <Link to="/register" className="link link-primary">
+            Registrarse
+          </Link>
+        </div>
+      </form>
       <ToastContainer />
     </div>
   );

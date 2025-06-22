@@ -11,6 +11,13 @@ import Eventos from './pages/Eventos';
 
 import Register from './pages/Register';
 import Login from './pages/Login';
+import NotFound from './pages/NotFound';
+import ProtectedRoute from './components/ProtectedRoute';
+import Dashboard from './pages/admin/Dashboard';
+import Votaciones from './pages/admin/Votaciones';
+import Funciones from './pages/admin/Funciones';
+import Usuarios from './pages/admin/Usuarios';
+import EventosAdmin from './pages/admin/Eventos';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -25,9 +32,43 @@ function AnimatedRoutes() {
         <Route path="/autoridades" element={<Autoridades />} />
         <Route path="/galeria" element={<Galeria />} />
         <Route path="/historia" element={<Historia />} />
-      
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/usuarios" element={
+          <ProtectedRoute>
+            <Usuarios />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/eventos" element={
+          <ProtectedRoute>
+            <EventosAdmin />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/funciones" element={
+          <ProtectedRoute>
+            <Funciones />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/votaciones" element={
+          <ProtectedRoute>
+            <Votaciones />
+          </ProtectedRoute>
+        } />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>
   );

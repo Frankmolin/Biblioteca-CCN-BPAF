@@ -10,54 +10,41 @@ const opciones = [
   { value: 'callnum', label: 'Signatura topográfica' },
 ];
 
+const API_URL = import.meta.env.VITE_BACK_API_URL || "http://localhost:3000";
+const GENERIC_COVER = "/img/generic-cover.png"; // Asegúrate de tener esta imagen en public/img/
+
 export default function Catalogo() {
   const [campo, setCampo] = useState('');
   const [query, setQuery] = useState('');
   const [resultados, setResultados] = useState([]);
+  const [paginacion, setPaginacion] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e, url = null) => {
+    e && e.preventDefault();
     setLoading(true);
     setResultados([]);
+    setPaginacion([]);
     try {
-      const params = new URLSearchParams({
-        idx: campo,
-        q: query,
-        do: 'Buscar',
-      });
-      // Cambia esta URL si usas un backend proxy propio para evitar CORS
-      const response = await fetch(`http://0197.bepe.ar/cgi-bin/koha/opac-search.pl?${params.toString()}`);
-      const htmlText = await response.text();
-
-      // Parsear HTML usando DOMParser (solo funciona si no hay CORS)
-      const parser = new window.DOMParser();
-      const doc = parser.parseFromString(htmlText, "text/html");
-      const filas = doc.querySelectorAll('tbody tr');
-      const libros = [];
-
-      filas.forEach(fila => {
-        const titulo = fila.querySelector('a.title')?.textContent?.trim() || '';
-        const enlace = fila.querySelector('a.title')?.href || '';
-        const autor = fila.querySelector('a.author')?.textContent?.trim() || '';
-        const publicacion = fila.querySelector('.results_summary.publisher')?.textContent?.replace(/Publicación:/, '').trim() || '';
-        const fecha = fila.querySelector('.results_summary.date')?.textContent?.replace(/Fecha:/, '').trim() || '';
-        const disponibilidad = fila.querySelector('.results_summary .label + span')?.textContent?.trim() || '';
-
-        libros.push({
-          titulo,
-          enlace,
-          autor,
-          publicacion,
-          fecha,
-          disponibilidad
+      let fetchUrl;
+      if (url) {
+        fetchUrl = API_URL + url;
+      } else {
+        const params = new URLSearchParams({
+          q: query,
+          idx: campo,
         });
-      });
-
-      setResultados(libros);
+        fetchUrl = `${API_URL}/libros/buscar?${params.toString()}`;
+      }
+      const response = await fetch(fetchUrl);
+      if (!response.ok) throw new Error("Error al buscar libros");
+      const data = await response.json();
+      setResultados(data.resultados || []);
+      setPaginacion(data.paginacion || []);
     } catch (err) {
       setResultados([]);
-      alert("Error al buscar. Si ves un error de CORS, consulta con el administrador.");
+      setPaginacion([]);
+      alert("Error al buscar. Intenta nuevamente.");
     }
     setLoading(false);
   };
@@ -96,19 +83,46 @@ export default function Catalogo() {
       {resultados.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {resultados.map((libro, i) => (
-            <div key={i} className="border rounded-lg p-4 shadow bg-white">
-              <h2 className="font-bold text-lg mb-2">
-                {libro.enlace ? (
-                  <a href={libro.enlace} target="_blank" rel="noopener noreferrer" className="text-purple-700 hover:underline">
-                    {libro.titulo}
-                  </a>
-                ) : libro.titulo}
-              </h2>
-              <p className="text-sm mb-1"><span className="font-semibold">Autor:</span> {libro.autor}</p>
-              <p className="text-sm mb-1"><span className="font-semibold">Publicación:</span> {libro.publicacion}</p>
-              <p className="text-sm mb-1"><span className="font-semibold">Fecha:</span> {libro.fecha}</p>
-              <p className="text-sm"><span className="font-semibold">Disponibilidad:</span> {libro.disponibilidad}</p>
+            <div key={i} className="border rounded-lg p-4 shadow bg-base-100 flex gap-4">
+              <div className="w-24 flex-shrink-0">
+                <img
+                  src={libro.portada || GENERIC_COVER}
+                  alt="Tapa del libro"
+                  className="w-24 h-32 object-cover rounded bg-base-200"
+                  onError={e => { e.target.src = GENERIC_COVER; }}
+                />
+              </div>
+              <div className="flex-1">
+                <h2 className="font-bold text-lg mb-1">
+                  {libro.enlace ? (
+                    <a href={libro.enlace} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                      {libro.titulo}
+                    </a>
+                  ) : libro.titulo}
+                </h2>
+                <p className="text-sm mb-1"><span className="font-semibold">Autor:</span> {libro.autor}</p>
+                <p className="text-sm mb-1"><span className="font-semibold">Publicación:</span> {libro.publicacion}</p>
+                <p className="text-sm mb-1"><span className="font-semibold">Fecha:</span> {libro.fecha}</p>
+                <p className="text-sm"><span className="font-semibold">Disponibilidad:</span> {libro.disponibilidad}</p>
+              </div>
             </div>
+          ))}
+        </div>
+      )}
+
+      {/* Paginación */}
+      {paginacion.length > 1 && (
+        <div className="flex flex-wrap gap-2 justify-center mt-8">
+          {paginacion.map((p, idx) => (
+            <button
+              key={idx}
+              className={`btn btn-xs ${p.activa ? "btn-primary" : "btn-outline btn-primary"}`}
+              disabled={p.activa}
+              onClick={e => handleSubmit(e, p.enlace)}
+              type="button"
+            >
+              {p.pagina}
+            </button>
           ))}
         </div>
       )}
