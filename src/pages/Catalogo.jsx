@@ -90,6 +90,7 @@ export default function Catalogo() {
                   alt="Tapa del libro"
                   className="w-24 h-32 object-cover rounded bg-base-200"
                   onError={e => { e.target.src = GENERIC_COVER; }}
+                  crossorigin="anonymous"
                 />
               </div>
               <div className="flex-1">
