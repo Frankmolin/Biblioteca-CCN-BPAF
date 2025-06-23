@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BackApiUrl from "../../utils/BackApiUrl";
+import { useNavigate } from "react-router-dom";
 
 
 export default function AdminEventos() {
+  const navigate = useNavigate();
+  
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(null); // evento en edición o null
@@ -204,6 +207,14 @@ export default function AdminEventos() {
           )}
         </div>
       )}
+      <div>
+      <button
+        onClick={() => navigate(-1)}
+        className="mt-8 link link-primary block mx-auto"
+      >
+        ← Volver
+      </button>
+      </div>    
     </div>
   );
 }

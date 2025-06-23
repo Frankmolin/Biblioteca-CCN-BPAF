@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BackApiUrl from "../../utils/BackApiUrl";
-import defaultImage from "/public/IMGTeatro.png";
+import { useNavigate } from "react-router-dom";
 
 
 export default function AdminFunciones() {
+  const navigate = useNavigate();
+
   const [funciones, setFunciones] = useState([]);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(null); // función en edición o null
@@ -205,6 +207,14 @@ export default function AdminFunciones() {
           )}
         </div>
       )}
+      <div>
+      <button
+        onClick={() => navigate(-1)}
+        className="mt-8 link link-primary block mx-auto"
+      >
+        ← Volver
+      </button>
+      </div>  
     </div>
   );
 }

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import BackApiUrl from "../../utils/BackApiUrl";
 import "../../index.css"; // Asegúrate de importar los estilos
+import { useNavigate } from "react-router-dom";
 
 export default function Usuarios() {
+  const navigate = useNavigate();
+  
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -195,6 +198,14 @@ export default function Usuarios() {
           </div>
         )}
       </div>
+      <div>
+      <button
+        onClick={() => navigate(-1)}
+        className="mt-8 link link-primary block mx-auto"
+      >
+        ← Volver
+      </button>
+      </div>     
     </div>
   );
 }
