@@ -91,7 +91,7 @@ const Register = () => {
           Registrarse
         </button>
         <div className="mt-4 text-center">
-          <span className="text-base-content">¿Ya tienes cuenta? </span>
+          <span className="text-base-content">¿Ya tenés una cuenta? </span>
           <Link to="/login" className="link link-primary">
             Iniciar sesión
           </Link>

@@ -60,7 +60,7 @@ const Login = () => {
             onChange={(e) => setEMail(e.target.value)}
             className="input input-bordered w-full"
             required
-            autoComplete="username"
+            autoComplete="email"
           />
         </div>
         <div className="mb-6">
