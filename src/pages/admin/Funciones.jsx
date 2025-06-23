@@ -189,7 +189,7 @@ export default function AdminFunciones() {
                 <h3 className="font-bold text-lg">{funcion.titulo}</h3>
                 <p className="text-base-content">{funcion.descripcion}</p>
                 <p className="text-sm text-gray-500">
-                  {funcion.fecha && new Date(funcion.fecha).toLocaleString()}
+                  {new Date(funcion.fecha).toLocaleString('es-AR', { timeZone: 'GMT', hour12: false, dateStyle: "full", timeStyle: "short"})}
                 </p>
               </div>
               <div className="flex flex-col gap-2">

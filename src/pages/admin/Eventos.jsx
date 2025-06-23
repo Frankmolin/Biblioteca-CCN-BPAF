@@ -189,7 +189,7 @@ export default function AdminEventos() {
                 <h3 className="font-bold text-lg">{evento.titulo}</h3>
                 <p className="text-base-content">{evento.descripcion}</p>
                 <p className="text-sm text-gray-500">
-                  {evento.fecha && new Date(evento.fecha).toLocaleString()}
+                  {new Date(evento.fecha).toLocaleString('es-AR', { timeZone: 'GMT', hour12: false, dateStyle: "full", timeStyle: "short"})}
                 </p>
               </div>
               <div className="flex flex-col gap-2">
