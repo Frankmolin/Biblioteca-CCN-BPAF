@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CoffeeIcon, ArrowDown } from "lucide-react";
+import { CoffeeIcon } from "lucide-react";
 import BackApiUrl from "../utils/BackApiUrl";
 
 // Paleta de colores de tu theme
@@ -28,9 +28,11 @@ function colorEvento(id) {
 export default function Eventos() {
   const [eventos, setEventos] = useState([]);
   const [busquedaEventos, setBusquedaEventos] = useState("");
+  const [funciones, setFunciones] = useState([]);
+  const [busquedaFunciones, setBusquedaFunciones] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const funciones = [
+/*   const funciones = [
     {
       titulo: "El secreto de sus ojos",
       tipo: "Película",
@@ -44,7 +46,7 @@ export default function Eventos() {
       fecha: new Date("2024-05-25T21:00:00"),
     },
   ];
-  const [busquedaFunciones, setBusquedaFunciones] = useState("");
+  const [busquedaFunciones, setBusquedaFunciones] = useState(""); */
 
   useEffect(() => {
     const fetchEventos = async () => {
@@ -59,6 +61,21 @@ export default function Eventos() {
       setLoading(false);
     };
     fetchEventos();
+  }, []);
+
+  useEffect(()=> {
+    const fetchFunciones = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${BackApiUrl}/funciones`);
+        const data = await res.json();
+        setFunciones(data.funciones || []);
+      } catch {
+        setFunciones([]);
+      }
+      setLoading(false);
+    };
+    fetchFunciones();
   }, []);
 
   const recordarme = (titulo, fecha) => {
@@ -123,7 +140,7 @@ export default function Eventos() {
                     <h3 className={`text-xl font-semibold text-${color}`}>{evento.titulo}</h3>
                     <p className="text-base-content">{evento.descripcion}</p>
                     <p className="text-sm text-gray-500">
-                      {evento.fecha && new Date(evento.fecha).toLocaleString()}
+                      {evento.fecha && new Date(evento.fecha).toLocaleString('es-AR', { timeZone: 'GMT', hour12: false, dateStyle: "full", timeStyle: "short"})}
                     </p>
                     <button
                       onClick={() => recordarme(evento.titulo, new Date(evento.fecha))}
@@ -173,8 +190,9 @@ export default function Eventos() {
                 funcionesFiltradas.map((funcion, index) => (
                   <div key={index} className="bg-base-100/90 p-6 rounded shadow-md space-y-2">
                     <h3 className="font-semibold text-primary">{funcion.titulo}</h3>
-                    <p className="text-sm text-base-content">
-                      {funcion.tipo} - {funcion.horario}
+                    <p className="text-base-content">{funcion.descripcion}</p>
+                    <p className="text-sm text-gray-500">
+                      {funcion.fecha && new Date(funcion.fecha).toLocaleString('es-AR', { timeZone: 'GMT', hour12: false, dateStyle: "full", timeStyle: "short"})}
                     </p>
                     <button
                       onClick={() => recordarme(funcion.titulo, funcion.fecha)}
