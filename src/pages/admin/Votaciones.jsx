@@ -1,7 +1,7 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Votaciones() {
   const [votaciones, setVotaciones] = useState([]);
@@ -14,10 +14,10 @@ export default function Votaciones() {
     fecha_fin: "",
   });
 
+  const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_BACK_API_URL;
   const token = localStorage.getItem("token");
 
-  // Obtener todas las votaciones
   const fetchVotaciones = async () => {
     setLoading(true);
     try {
@@ -36,12 +36,10 @@ export default function Votaciones() {
     fetchVotaciones();
   }, []);
 
-  // Manejar cambios en el formulario
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Crear o actualizar votación
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
@@ -81,7 +79,6 @@ export default function Votaciones() {
     }
   };
 
-  // Editar votación
   const handleEdit = (votacion) => {
     setForm({
       titulo: votacion.titulo,
@@ -93,7 +90,6 @@ export default function Votaciones() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Eliminar votación
   const handleDelete = async (id) => {
     if (!window.confirm("¿Eliminar esta votación?")) return;
     try {
@@ -210,27 +206,16 @@ export default function Votaciones() {
           </tbody>
         </table>
       )}
-=======
-import React from "react";
-import { useNavigate } from "react-router-dom";
 
-export default function Votaciones() {
-  const navigate = useNavigate();
-
-  return (
-    <div className="p-8">
-      <h2 className="text-2xl font-bold text-info mb-4">Administrar Votaciones</h2>
-      {/* Aquí va la tabla y formulario CRUD de votaciones */}
-
+      {/* Botón Volver */}
       <div>
-      <button
-        onClick={() => navigate(-1)}
-        className="mt-8 link link-primary block mx-auto"
-      >
-        ← Volver
-      </button>
-      </div>  
->>>>>>> 502c99e9524bcc0201012496d0428e7472c32d08
+        <button
+          onClick={() => navigate(-1)}
+          className="mt-8 link link-primary block mx-auto"
+        >
+          ← Volver
+        </button>
+      </div>
     </div>
   );
 }
