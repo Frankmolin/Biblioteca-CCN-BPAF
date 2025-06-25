@@ -17,10 +17,12 @@ import Votaciones from './pages/admin/Votaciones';
 import Funciones from './pages/admin/Funciones';
 import Usuarios from './pages/admin/Usuarios';
 import EventosAdmin from './pages/admin/Eventos';
-
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 function AnimatedRoutes() {
   const location = useLocation();
-  return (
+  return (<>
+    <ToastContainer position="top-center" newestOnTop />
     <MainLayout>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
@@ -70,6 +72,7 @@ function AnimatedRoutes() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>
+  </>
   );
 }
 

@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import BackApiUrl from "../utils/BackApiUrl";
 
 const Login = () => {
-  const [email, setEMail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
 
     try {
       const res = await fetch(`${BackApiUrl}/auth/login`, {
@@ -27,21 +27,21 @@ const Login = () => {
 
       const data = await res.json();
 
-      
       localStorage.setItem("token", data.token);
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
       toast.success(data.message || "¡Login exitoso!");
       setTimeout(() => {
         navigate("/");
-      }, 3000);
+      }, 1500);
     } catch (err) {
+      setError(err.message || "Error al iniciar sesión");
       toast.error(err.message || "Error al iniciar sesión");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center  bg-base-200">
+    <div className="flex flex-col items-center justify-center bg-base-200 min-h-screen">
       <form
         onSubmit={handleSubmit}
         className="bg-base-100 my-4 p-8 rounded-lg shadow-md w-full max-w-sm"
@@ -56,8 +56,6 @@ const Login = () => {
           <input
             type="email"
             name="email"
-            value={email}
-            onChange={(e) => setEMail(e.target.value)}
             className="input input-bordered w-full"
             required
             autoComplete="email"
@@ -70,8 +68,6 @@ const Login = () => {
           <input
             type="password"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
             className="input input-bordered w-full"
             required
             autoComplete="current-password"
@@ -83,6 +79,7 @@ const Login = () => {
         >
           Ingresar
         </button>
+       
         <div className="mt-4 text-center">
           <span className="text-base-content">¿No tienes cuenta? </span>
           <Link to="/register" className="link link-primary">
@@ -90,7 +87,6 @@ const Login = () => {
           </Link>
         </div>
       </form>
-      <ToastContainer />
     </div>
   );
 };

@@ -82,6 +82,8 @@ const Register = () => {
             className="input input-bordered w-full"
             required
             autoComplete="new-password"
+            min={6}
+            
           />
         </div>
         <button
@@ -97,7 +99,7 @@ const Register = () => {
           </Link>
         </div>
       </form>
-      <ToastContainer />
+      
     </div>
   );
 };

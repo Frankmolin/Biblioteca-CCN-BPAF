@@ -11,7 +11,7 @@ const opciones = [
 ];
 
 const API_URL = import.meta.env.VITE_BACK_API_URL || "http://localhost:3000";
-const GENERIC_COVER = "/img/generic-cover.png"; // Asegúrate de tener esta imagen en public/img/
+const GENERIC_COVER = "/images/templatelibro.png"; // Asegúrate de tener esta imagen en public/img/
 
 export default function Catalogo() {
   const [campo, setCampo] = useState('');

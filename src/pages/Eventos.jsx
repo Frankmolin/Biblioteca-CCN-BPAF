@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { CoffeeIcon } from "lucide-react";
 import BackApiUrl from "../utils/BackApiUrl";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 // Paleta de colores de tu theme
 const PALETA = [
@@ -30,24 +33,15 @@ export default function Eventos() {
   const [busquedaEventos, setBusquedaEventos] = useState("");
   const [funciones, setFunciones] = useState([]);
   const [busquedaFunciones, setBusquedaFunciones] = useState("");
+  const [votaciones, setVotaciones] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [votando, setVotando] = useState({});
+  const [resultados, setResultados] = useState({});
+  const token = localStorage.getItem("token");
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+  const navigate = useNavigate();
 
-/*   const funciones = [
-    {
-      titulo: "El secreto de sus ojos",
-      tipo: "Película",
-      horario: "Viernes 20:00 hs.",
-      fecha: new Date("2024-05-24T20:00:00"),
-    },
-    {
-      titulo: "Esperando la carroza",
-      tipo: "Obra de teatro",
-      horario: "Sábado 21:00 hs.",
-      fecha: new Date("2024-05-25T21:00:00"),
-    },
-  ];
-  const [busquedaFunciones, setBusquedaFunciones] = useState(""); */
-
+  // Eventos
   useEffect(() => {
     const fetchEventos = async () => {
       setLoading(true);
@@ -63,7 +57,8 @@ export default function Eventos() {
     fetchEventos();
   }, []);
 
-  useEffect(()=> {
+  // Funciones
+  useEffect(() => {
     const fetchFunciones = async () => {
       setLoading(true);
       try {
@@ -77,6 +72,64 @@ export default function Eventos() {
     };
     fetchFunciones();
   }, []);
+
+  // Votaciones
+  useEffect(() => {
+    const fetchVotaciones = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${BackApiUrl}/votaciones`);
+        const data = await res.json();
+        setVotaciones(data.votaciones || []);
+      } catch {
+        setVotaciones([]);
+      }
+      setLoading(false);
+    };
+    fetchVotaciones();
+  }, []);
+
+  // Obtener resultados de votación
+  const fetchResultados = async (id) => {
+    try {
+      const res = await fetch(`${BackApiUrl}/votaciones/${id}/resultados`);
+      const data = await res.json();
+      setResultados((prev) => ({ ...prev, [id]: data.resultados || {} }));
+    } catch {
+      toast.error("No se pudieron obtener los resultados.");
+    }
+  };
+
+  // Votar
+  const handleVotar = async (votacionId, opcion) => {
+    if (!token || !usuario) {
+      toast.error("Debes iniciar sesión para votar.");
+      navigate("/login");
+      return;
+    }
+    if (usuario.rol === "admin") {
+      toast.error("Los administradores no pueden votar.");
+      return;
+    }
+    setVotando((prev) => ({ ...prev, [votacionId]: true }));
+    try {
+      const res = await fetch(`${BackApiUrl}/votaciones/${votacionId}/votar`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ opcion }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Error al votar");
+      toast.success(data.message || "¡Voto registrado!");
+      fetchResultados(votacionId);
+    } catch (err) {
+      toast.error(err.message || "Error al votar");
+    }
+    setVotando((prev) => ({ ...prev, [votacionId]: false }));
+  };
 
   const recordarme = (titulo, fecha) => {
     const ahora = new Date();
@@ -97,6 +150,7 @@ export default function Eventos() {
 
   return (
     <div className="w-full my-12 max-w-7xl mx-auto px-4 space-y-8">
+      <ToastContainer position="top-center" newestOnTop />
       {/* Sección Eventos */}
       <section className="w-full">
         <h1 className="text-5xl font-bold text-neutral-content mb-4 text-center">Eventos</h1>
@@ -153,6 +207,78 @@ export default function Eventos() {
               })
             ) : (
               <p className="text-base-content col-span-full">No se encontraron eventos con ese nombre.</p>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* Sección Votaciones */}
+      <section className="w-full mt-12">
+        <h2 className="text-4xl font-bold text-info mb-4 text-center">Votaciones</h2>
+        {loading ? (
+          <div className="text-center text-base-content">Cargando votaciones...</div>
+        ) : (
+          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {votaciones.length > 0 ? (
+              votaciones.map((votacion) => (
+                <div key={votacion.id} className="bg-base-100 border-l-4 border-info p-4 rounded shadow space-y-2 flex flex-col">
+                  <h3 className="text-xl font-semibold text-info">{votacion.titulo}</h3>
+                  <p className="text-base-content">{votacion.descripcion}</p>
+                  <p className="text-sm text-gray-500">
+                    {votacion.fecha_fin && (
+                      <>Cierra: {new Date(votacion.fecha_fin).toLocaleDateString("es-AR")}</>
+                    )}
+                  </p>
+                  {/* Opciones de votación */}
+                  {usuario && usuario.rol !== "admin" ? (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {Array.isArray(votacion.opciones) &&
+                        votacion.opciones.map((opcion, idx) => (
+                          <button
+                            key={idx}
+                            className="btn btn-xs btn-info"
+                            disabled={votando[votacion.id]}
+                            onClick={() => handleVotar(votacion.id, opcion)}
+                          >
+                            {opcion}
+                          </button>
+                        ))}
+                    </div>
+                  ) : (
+                    <div className="text-xs text-gray-400 mt-2">
+                      {usuario?.rol === "admin"
+                        ? "Los administradores no pueden votar."
+                        : (
+                          <span>
+                            Debes <button className="link link-info" onClick={() => navigate("/login")}>iniciar sesión</button> para votar.
+                          </span>
+                        )
+                      }
+                    </div>
+                  )}
+                  {/* Resultados */}
+                  <button
+                    className="link link-info mt-2 self-start"
+                    onClick={() => fetchResultados(votacion.id)}
+                  >
+                    Ver resultados
+                  </button>
+                  {resultados[votacion.id] && (
+                    <div className="mt-2">
+                      <h4 className="font-semibold text-info">Resultados:</h4>
+                      <ul className="text-sm">
+                        {Object.entries(resultados[votacion.id]).map(([op, count]) => (
+                          <li key={op}>
+                            {op}: <span className="font-bold">{count}</span> voto(s)
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <p className="text-base-content col-span-full">No hay votaciones activas.</p>
             )}
           </div>
         )}
@@ -216,11 +342,11 @@ export default function Eventos() {
             <h2 className="text-2xl font-bold text-secondary">Café Literario</h2>
           </div>
           <p>
-            <img src="./IMGFlor.png"></img>
+            <img src="./IMGFlor.png" alt="Flor decorativa" />
           </p>
-          <p className="mt-2 text-base-content">
+          <div className="mt-2 text-base-content">
             <h3>Descargá la carta del café literario con las opciones disponibles: </h3>
-          </p>
+          </div>
           <a
             href="https://drive.google.com/file/d/1gALmq57RcMztB50NFgXqgtP9wdApsX7z/view?usp=drive_link"
             target="_blank"

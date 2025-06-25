@@ -3,15 +3,17 @@ import Footer from '../components/Footer';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 
+
 const MainLayout = ({ children }) => {
   const location = useLocation();
   return (
     <div className="min-h-screen flex flex-col">
+     
       <Navbar />
       <AnimatePresence mode="wait">
         <motion.main
           key={location.pathname}
-          className="flex-1 bg-base-100 relative z-10"
+          className="flex-1 bg-base-100 relative z-1"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -30 }}
