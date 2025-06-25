@@ -33,6 +33,14 @@ export default function Dashboard() {
           Gestionar Votaciones
         </button>
       </div>
+      <div>
+      <button
+        onClick={() => navigate(-1)}
+        className="mt-8 link link-primary block mx-auto"
+      >
+        ← Volver
+      </button>
+      </div>    
     </div>
   );
 }

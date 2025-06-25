@@ -8,7 +8,6 @@ import MainLayout from './layouts/MainLayout';
 import Acerca from './pages/Acerca';
 import Catalogo from './pages/Catalogo';
 import Eventos from './pages/Eventos';
-
 import Register from './pages/Register';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';

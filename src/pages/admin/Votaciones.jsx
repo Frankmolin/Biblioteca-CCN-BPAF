@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -209,6 +210,27 @@ export default function Votaciones() {
           </tbody>
         </table>
       )}
+=======
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+export default function Votaciones() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="p-8">
+      <h2 className="text-2xl font-bold text-info mb-4">Administrar Votaciones</h2>
+      {/* Aquí va la tabla y formulario CRUD de votaciones */}
+
+      <div>
+      <button
+        onClick={() => navigate(-1)}
+        className="mt-8 link link-primary block mx-auto"
+      >
+        ← Volver
+      </button>
+      </div>  
+>>>>>>> 502c99e9524bcc0201012496d0428e7472c32d08
     </div>
   );
 }

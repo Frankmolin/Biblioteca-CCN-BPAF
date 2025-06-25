@@ -28,9 +28,11 @@ function colorEvento(id) {
 export default function Eventos() {
   const [eventos, setEventos] = useState([]);
   const [busquedaEventos, setBusquedaEventos] = useState("");
+  const [funciones, setFunciones] = useState([]);
+  const [busquedaFunciones, setBusquedaFunciones] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const funciones = [
+/*   const funciones = [
     {
       titulo: "El secreto de sus ojos",
       tipo: "Película",
@@ -44,7 +46,7 @@ export default function Eventos() {
       fecha: new Date("2024-05-25T21:00:00"),
     },
   ];
-  const [busquedaFunciones, setBusquedaFunciones] = useState("");
+  const [busquedaFunciones, setBusquedaFunciones] = useState(""); */
 
   useEffect(() => {
     const fetchEventos = async () => {
@@ -59,6 +61,21 @@ export default function Eventos() {
       setLoading(false);
     };
     fetchEventos();
+  }, []);
+
+  useEffect(()=> {
+    const fetchFunciones = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${BackApiUrl}/funciones`);
+        const data = await res.json();
+        setFunciones(data.funciones || []);
+      } catch {
+        setFunciones([]);
+      }
+      setLoading(false);
+    };
+    fetchFunciones();
   }, []);
 
   const recordarme = (titulo, fecha) => {
@@ -123,7 +140,7 @@ export default function Eventos() {
                     <h3 className={`text-xl font-semibold text-${color}`}>{evento.titulo}</h3>
                     <p className="text-base-content">{evento.descripcion}</p>
                     <p className="text-sm text-gray-500">
-                      {evento.fecha && new Date(evento.fecha).toLocaleString()}
+                      {evento.fecha && new Date(evento.fecha).toLocaleString('es-AR', { timeZone: 'GMT', hour12: false, dateStyle: "full", timeStyle: "short"})}
                     </p>
                     <button
                       onClick={() => recordarme(evento.titulo, new Date(evento.fecha))}
@@ -164,17 +181,18 @@ export default function Eventos() {
               placeholder="Buscar película u obra..."
               value={busquedaFunciones}
               onChange={(e) => setBusquedaFunciones(e.target.value)}
-              className="w-full p-2 rounded bg-base-100 text-base-content shadow-sm focus:outline-none"
+              className="w-full p-3 rounded bg-base-100 text-base-content shadow-sm focus:outline-none"
             />
 
             {/* Funciones filtradas */}
-            <div className="grid sm:grid-cols-1 gap-4">
+            <div className="grid sm:grid-cols-1 gap-6 mt-8">
               {funcionesFiltradas.length > 0 ? (
                 funcionesFiltradas.map((funcion, index) => (
-                  <div key={index} className="bg-base-100/90 p-4 rounded shadow-md space-y-2">
+                  <div key={index} className="bg-base-100/90 p-6 rounded shadow-md space-y-2">
                     <h3 className="font-semibold text-primary">{funcion.titulo}</h3>
-                    <p className="text-sm text-base-content">
-                      {funcion.tipo} - {funcion.horario}
+                    <p className="text-base-content">{funcion.descripcion}</p>
+                    <p className="text-sm text-gray-500">
+                      {funcion.fecha && new Date(funcion.fecha).toLocaleString('es-AR', { timeZone: 'GMT', hour12: false, dateStyle: "full", timeStyle: "short"})}
                     </p>
                     <button
                       onClick={() => recordarme(funcion.titulo, funcion.fecha)}
@@ -185,7 +203,7 @@ export default function Eventos() {
                   </div>
                 ))
               ) : (
-                <p className="text-base-content">No se encontraron funciones con ese nombre.</p>
+                <p className="text-base-content">No se encontraron funciones con este nombre.</p>
               )}
             </div>
           </div>
@@ -197,11 +215,14 @@ export default function Eventos() {
             <CoffeeIcon className="text-secondary" />
             <h2 className="text-2xl font-bold text-secondary">Café Literario</h2>
           </div>
-          <p className="text-base-content">
-            Descargá la carta del café literario con las opciones disponibles.
+          <p>
+            <img src="./IMGFlor.png"></img>
+          </p>
+          <p className="mt-2 text-base-content">
+            <h3>Descargá la carta del café literario con las opciones disponibles: </h3>
           </p>
           <a
-            href="/pdfs/carta-cafe.pdf"
+            href="https://drive.google.com/file/d/1gALmq57RcMztB50NFgXqgtP9wdApsX7z/view?usp=drive_link"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-block bg-accent text-accent-content px-4 py-2 rounded hover:bg-accent-content hover:text-accent transition"

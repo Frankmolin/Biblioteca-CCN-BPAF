@@ -15,6 +15,7 @@
     "daisyui": "^5.0.35",
     "framer-motion": "^12.12.1",
     "lucide-react": "^0.513.0",
+    "pdfjs-dist": "^5.3.31",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-responsive-carousel": "^3.2.23",
