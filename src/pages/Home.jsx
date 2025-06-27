@@ -71,7 +71,7 @@ function Home() {
             {/* 2. Socios */}
             <article className="bg-base-100 border-l-4 border-success p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between">
               <h2 className="text-xl font-semibold mb-3 text-success">
-                Hacetete socio
+                Hacete socio
               </h2>
               <p className="text-sm mb-4 tracking-tight text-justify">
                 Con tu aporte mensual de <span className="font-bold text-success">$2.500</span>, podés:
@@ -81,11 +81,7 @@ function Home() {
                 <li>Proponer títulos para nuestro catálogo.</li>
                 <li>Asistir a eventos y talleres con un 50% de descuento.</li>
               </ul>
-              <a href="#inscripcion" className="mt-auto">
-                <button className="btn btn-success btn-block">
-                  Quiero ser socio
-                </button>
-              </a>
+              
             </article>
 
             {/* 3. Actividades */}
