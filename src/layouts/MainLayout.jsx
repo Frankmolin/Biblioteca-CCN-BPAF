@@ -8,7 +8,6 @@ const MainLayout = ({ children }) => {
   const location = useLocation();
   return (
     <div className="min-h-screen flex flex-col">
-     
       <Navbar />
       <AnimatePresence mode="wait">
         <motion.main
