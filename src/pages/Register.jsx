@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import BackApiUrl from "../utils/BackApiUrl";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const form = e.target;
     const nombre = form.nombre.value;
     const email = form.email.value;
@@ -23,6 +24,7 @@ const Register = () => {
 
       if (!res.ok) {
         const errorData = await res.json();
+        
         throw new Error(errorData.message || "Error al registrarse");
       }
 
@@ -36,6 +38,8 @@ const Register = () => {
       }, 3000);
     } catch (err) {
       toast.error(err.message || "Error al registrarse");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -83,14 +87,14 @@ const Register = () => {
             required
             autoComplete="new-password"
             min={6}
-            
           />
         </div>
         <button
           type="submit"
           className="btn bg-primary text-primary-content w-full"
+          disabled={loading}
         >
-          Registrarse
+          {loading ? "Registrando..." : "Registrarse"}
         </button>
         <div className="mt-4 text-center">
           <span className="text-base-content">¿Ya tenés una cuenta? </span>
@@ -99,7 +103,6 @@ const Register = () => {
           </Link>
         </div>
       </form>
-      
     </div>
   );
 };

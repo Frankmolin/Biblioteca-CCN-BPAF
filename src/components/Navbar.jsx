@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar shadow flex flex-col items-center px-2 bg-base-100 z-2  top-0">
+    <nav className="navbar shadow flex flex-col items-center px-2 bg-base-100 z-10  top-0">
       <div className="w-full flex flex-col sm:flex-row items-center justify-between mb-2 gap-2">
         <Link to="/" className="flex items-center gap-2">
           <img src="/Logo.png" alt="Logo" className="w-32 h-28 rounded-md" />

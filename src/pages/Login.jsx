@@ -5,11 +5,13 @@ import BackApiUrl from "../utils/BackApiUrl";
 
 const Login = () => {
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
@@ -22,6 +24,7 @@ const Login = () => {
       });
 
       if (!res.ok) {
+        
         throw new Error("Credenciales incorrectas");
       }
 
@@ -37,6 +40,8 @@ const Login = () => {
     } catch (err) {
       setError(err.message || "Error al iniciar sesión");
       toast.error(err.message || "Error al iniciar sesión");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,10 +81,11 @@ const Login = () => {
         <button
           type="submit"
           className="btn bg-primary text-primary-content w-full"
+          disabled={loading}
         >
-          Ingresar
+          {loading ? "Ingresando..." : "Ingresar"}
         </button>
-       
+        
         <div className="mt-4 text-center">
           <span className="text-base-content">¿No tienes cuenta? </span>
           <Link to="/register" className="link link-primary">
