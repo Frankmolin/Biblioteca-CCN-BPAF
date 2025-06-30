@@ -69,7 +69,7 @@ function Home() {
             </article>
 
             {/* 2. Socios */}
-            <article className="bg-base-100 border-l-4 border-success p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between">
+            <article className="bg-base-100 border-l-4 border-success p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col">
               <h2 className="text-xl font-semibold mb-3 text-success">
                 Hacete socio
               </h2>

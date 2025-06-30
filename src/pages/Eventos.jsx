@@ -5,6 +5,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
+const GENERIC_FUNCION= "/images/templatefuncion.png"; 
+const GENERIC_EVENTO= "/images/templateevento.png"; 
+
 // Paleta de colores de tu theme
 const PALETA = [
   "primary",
@@ -103,7 +106,7 @@ export default function Eventos() {
   // Votar
   const handleVotar = async (votacionId, opcion) => {
     if (!token || !usuario) {
-      toast.error("Debes iniciar sesión para votar.");
+      toast.error("Tenés que iniciar sesión para votar.");
       navigate("/login");
       return;
     }
@@ -174,7 +177,7 @@ export default function Eventos() {
                 return (
                   <div
                     key={evento.id || index}
-                    className={`bg-base-100 border-l-4 border-${color} p-4 rounded shadow hover:shadow-md transition space-y-2 flex flex-col`}
+                    className={`bg-base-100 border-l-4 border-${color} p-4 rounded shadow hover:shadow-md transition space-y-2`}
                   >
                     <img
                       src={
@@ -187,26 +190,26 @@ export default function Eventos() {
                       alt="Evento"
                       className="w-full h-48 object-cover rounded mb-2 bg-base-200"
                       crossOrigin="anonymous"
-                      onError={(e) => {
-                        e.target.src = "/img/generic-cover.png";
-                      }}
+                      onError={e => { e.target.src = GENERIC_EVENTO; }}
                     />
+                    <div className="flex flex-col mb-5">
                     <h3 className={`text-xl font-semibold text-${color}`}>{evento.titulo}</h3>
                     <p className="text-base-content">{evento.descripcion}</p>
+                    </div>
                     <p className="text-sm text-gray-500">
                       {evento.fecha && new Date(evento.fecha).toLocaleString('es-AR', { timeZone: 'GMT', hour12: false, dateStyle: "full", timeStyle: "short"})}
                     </p>
-                    <button
+{/*                     <button
                       onClick={() => recordarme(evento.titulo, new Date(evento.fecha))}
                       className={`mt-2 px-3 py-1 bg-${color} text-white text-sm rounded hover:bg-${color}/90 transition self-start`}
                     >
                       Recordarme
-                    </button>
+                    </button> */}
                   </div>
                 );
               })
             ) : (
-              <p className="text-base-content col-span-full">No se encontraron eventos con ese nombre.</p>
+              <p className="text-base-content col-span-full">No se encontraron eventos con este nombre.</p>
             )}
           </div>
         )}
@@ -315,17 +318,28 @@ export default function Eventos() {
               {funcionesFiltradas.length > 0 ? (
                 funcionesFiltradas.map((funcion, index) => (
                   <div key={index} className="bg-base-100/90 p-6 rounded shadow-md space-y-2">
+                    <div className="flex justify">                      
+                    <img
+                    src={funcion.imagen_url}
+                    alt="Funcion"
+                    onError={e => { e.target.src = GENERIC_FUNCION; }}
+                    className="w-32 h-32 object-cover rounded bg-base-200"
+                    crossorigin="anonymous"
+                    />
+                    <div className="ml-5">
                     <h3 className="font-semibold text-primary">{funcion.titulo}</h3>
                     <p className="text-base-content">{funcion.descripcion}</p>
                     <p className="text-sm text-gray-500">
                       {funcion.fecha && new Date(funcion.fecha).toLocaleString('es-AR', { timeZone: 'GMT', hour12: false, dateStyle: "full", timeStyle: "short"})}
                     </p>
-                    <button
+{/*                     <button
                       onClick={() => recordarme(funcion.titulo, funcion.fecha)}
                       className="mt-1 px-3 py-1 bg-primary text-white text-sm rounded hover:bg-primary/90 transition"
                     >
                       Recordarme
-                    </button>
+                    </button> */}
+                    </div>
+                    </div>
                   </div>
                 ))
               ) : (

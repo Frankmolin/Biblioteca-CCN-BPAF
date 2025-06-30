@@ -44,10 +44,11 @@ const Navbar = () => {
           ) : (
             <div className="text-xs sm:text-sm text-secondary flex items-center gap-2">
               {usuario?.rol === "admin" && (
-                <Link to="/dashboard" className="hover:underline">Dashboard</Link>
+                <Link to="/dashboard" className="hover:underline">Administrar</Link>
               )}
+              <span className="mx-1">|</span>
               <button onClick={handleLogout} className="hover:underline bg-transparent border-none cursor-pointer text-secondary">
-                Cerrar sesión
+              Cerrar sesión
               </button>
             </div>
           )}

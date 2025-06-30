@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import BackApiUrl from "../../utils/BackApiUrl";
 import { useNavigate } from "react-router-dom";
 
+const GENERIC_FUNCION = "./images/templatefuncion.png"; 
 
 export default function AdminFunciones() {
   const navigate = useNavigate();
