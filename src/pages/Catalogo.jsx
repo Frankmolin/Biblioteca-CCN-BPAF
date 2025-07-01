@@ -58,7 +58,7 @@ export default function Catalogo() {
           id="masthead_search"
           value={campo}
           onChange={e => setCampo(e.target.value)}
-          className="border rounded px-2 py-1"
+          className="border rounded px-2 py-1 bg-gray-100 text-black"
         >
           {opciones.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>

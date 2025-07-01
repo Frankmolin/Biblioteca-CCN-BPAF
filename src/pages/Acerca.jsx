@@ -18,7 +18,7 @@ export default function Acerca() {
 
       <p className="text-base sm:text-lg text-center mb-6 sm:mb-10 text-base-content">
         Nuestra institución, fundada en 1907, promueve la cultura, educación y
-        solidaridad en el distrito de Necochea. Aquí encontrarás más información
+        solidaridad en el distrito de Necochea. Acá podés más información
         sobre nuestra historia, equipo y actividades.
       </p>
 

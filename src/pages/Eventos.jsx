@@ -251,6 +251,7 @@ export default function Eventos() {
       setLoading(false);
     };
     fetchFunciones();
+    
   }, []);
 
   // Votaciones (solo lista básica)
@@ -447,13 +448,13 @@ export default function Eventos() {
             <h2 className="text-2xl font-bold text-neutral-content">Cine y teatro</h2>
 
             {/* Buscador de funciones */}
-            <input
+            {/*<input
               type="text"
               placeholder="Buscar película u obra..."
               value={busquedaFunciones}
               onChange={(e) => setBusquedaFunciones(e.target.value)}
               className="w-full p-3 rounded bg-base-100 text-base-content shadow-sm focus:outline-none"
-            />
+            />*/}
 
             {/* Funciones filtradas */}
             <div className="grid sm:grid-cols-1 gap-6 mt-8">
@@ -490,9 +491,10 @@ export default function Eventos() {
             </div>
           </div>
         </div>
-
+        <div>
         {/* Café Literario */}
         <CafeLiterario />
+        </div>
       </section>
     </div>
   );
