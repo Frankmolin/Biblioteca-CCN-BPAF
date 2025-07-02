@@ -186,7 +186,7 @@ function CafeLiterario() {
     <div className="bg-base-100 p-6 rounded-xl shadow flex flex-col justify-between">
       <div className="flex items-center gap-2 mb-2">
         <CoffeeIcon className="text-secondary" />
-        <h2 className="text-2xl font-bold text-secondary">Café Literario</h2>
+        <h2 className="text-2xl font-bold text-secondary">Café literario</h2>
       </div>
       <p>
         <img src="./IMGFlor.png" alt="Flor decorativa" />
